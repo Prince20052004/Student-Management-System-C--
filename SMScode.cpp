@@ -79,7 +79,7 @@ void Student::menu(){
         if(cin.fail()){
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            choice = 0; // Force default case
+            choice = 0;
         }
         switch(choice){
             case 1:
@@ -200,7 +200,6 @@ void Student::modify() {
     if (!file) {
         cout << "\n\t\t\tNo Data is Present..";
         file.close();
-        // FIX 5: pause so user can read the message before menu redraws
         cout << "\n\n\t\t\tPress Enter to continue...";
         cin.ignore();
         cin.get();
@@ -211,9 +210,8 @@ void Student::modify() {
     file1.open(TEMP_FILENAME, ios::app | ios::out);
     string line;
     while (getline(file, line)) {
-        string saveLine = line; // save original line for writing back if not matched
+        string saveLine = line;
         string current_roll;
-        // FIX 2: roll_no is field[1] — extract text between 1st and 2nd delimiter
         size_t d1 = line.find(DELIMITER);
         if (d1 != string::npos) {
             size_t d2 = line.find(DELIMITER, d1 + DELIMITER.length());
@@ -226,7 +224,6 @@ void Student::modify() {
             file1 << saveLine << "\n";
         } else {
             cout << "\n\t\t\tCurrent Details:\n";
-            // Display current details by parsing the saved line
             size_t pos = 0;
             int field = 0;
             while ((pos = line.find(DELIMITER)) != string::npos) {
@@ -242,7 +239,6 @@ void Student::modify() {
                 field++;
             }
             cout << "\t\t\tAddress: " << line << "\n";
-            // Get new details
             cout << "\n\t\t\tEnter New Details:\n";
             cout << "\t\t\tEnter Name: ";
             cin.ignore();
@@ -279,7 +275,6 @@ void Student::modify() {
     file.close();
     remove(FILENAME.c_str());
     rename(TEMP_FILENAME.c_str(), FILENAME.c_str());
-    // FIX 5: pause so user can read the result before menu redraws
     cout << "\n\n\t\t\tPress Enter to continue...";
     cin.ignore();
     cin.get();
@@ -293,7 +288,6 @@ void Student::search() {
         cout << "\n-------------------------------------------------------------------------------------------------------" << endl;
         cout << "------------------------------------- Student Search Data --------------------------------------------" << endl;
         cout << "\n\t\t\tNo Data is Present... " << endl;
-        // FIX 4: pause so user can read the message before menu redraws
         cout << "\n\t\t\tPress Enter to continue...";
         cin.ignore();
         cin.get();
@@ -306,13 +300,11 @@ void Student::search() {
     cin >> rollno;
     string line;
     while (getline(file, line)) {
-        // FIX 1: roll_no is field[1] — extract text between 1st and 2nd delimiter
         size_t d1 = line.find(DELIMITER);
         if (d1 != string::npos) {
             size_t d2 = line.find(DELIMITER, d1 + DELIMITER.length());
             if (d2 != string::npos) {
-                string current_roll = line.substr(d1 + DELIMITER.length(),
-                                                  d2 - d1 - DELIMITER.length());
+                string current_roll = line.substr(d1 + DELIMITER.length(), d2 - d1 - DELIMITER.length());
                 if (rollno == current_roll) {
                     size_t pos = 0;
                     int field = 0;
@@ -338,7 +330,6 @@ void Student::search() {
     if(found == 0)
         cout << "\n\t\t\t Student Roll No. Not Found....";
     file.close();
-    // FIX 4: pause so user can read the result before menu redraws
     cout << "\n\n\t\t\tPress Enter to continue...";
     cin.ignore();
     cin.get();
@@ -354,7 +345,6 @@ void Student::deleteStudent(){
     if (!file) {
         cout << "\n\t\t\tNo Data is Present..";
         file.close();
-        // FIX 6: pause so user can read the message before menu redraws
         cout << "\n\n\t\t\tPress Enter to continue...";
         cin.ignore();
         cin.get();
@@ -368,7 +358,6 @@ void Student::deleteStudent(){
     if(confirm != 'Y' && confirm != 'y'){
         cout << "\n\t\tDeletion cancelled.\n";
         file.close();
-        // FIX 6: pause so user can read the message before menu redraws
         cout << "\n\t\t\tPress Enter to continue...";
         cin.ignore();
         cin.get();
@@ -377,13 +366,11 @@ void Student::deleteStudent(){
     file1.open(TEMP_FILENAME, ios::app | ios::out);
     string line;
     while(getline(file, line)){
-        // FIX 3: roll_no is field[1] — extract text between 1st and 2nd delimiter
         size_t d1 = line.find(DELIMITER);
         if(d1 != string::npos){
             size_t d2 = line.find(DELIMITER, d1 + DELIMITER.length());
             if(d2 != string::npos){
-                string current_roll = line.substr(d1 + DELIMITER.length(),
-                                                  d2 - d1 - DELIMITER.length());
+                string current_roll = line.substr(d1 + DELIMITER.length(), d2 - d1 - DELIMITER.length());
                 if(roll != current_roll)
                     file1 << line << "\n";
                 else
@@ -399,7 +386,6 @@ void Student::deleteStudent(){
     file.close();
     remove(FILENAME.c_str());
     rename(TEMP_FILENAME.c_str(), FILENAME.c_str());
-    // FIX 6: pause so user can read the result before menu redraws
     cout << "\n\t\t\tPress Enter to continue...";
     cin.ignore();
     cin.get();
